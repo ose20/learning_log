@@ -1,30 +1,50 @@
 (* MySupport: 補助関数群*)
+open Str
 
-type month =
-  | January | February | March | April
-  | May | June | July | August 
-  | September | October | November | December
+type floint = Float of float | Int of int
+let i_of_s s = int_of_string s
+let f_of_s s = float_of_string s
+let i_of_f f = int_of_float f
+let data_of_log y m d time =
+  (i_of_s y, i_of_s m, i_of_s d, f_of_s time)
 
-let month_of_int = function
-  | 1 -> January | 2 -> February | 3 -> March | 4 -> April
-  | 5 -> May | 6 -> June | 7 -> July | 8 -> August
-  | 9 -> September | 10 -> October | 11 -> November | 12 -> December
-  | _ -> failwith "argument does not represent month" 
 
-let int_of_month = function
-  | January -> 1 | February -> 2 | March -> 3 | April -> 4
-  | May -> 5 | June -> 6 | July -> 7 | August -> 8
-  | September -> 9 | October -> 10 | November -> 11 | December -> 12
+let days_of_month = function
+  | 2 -> 29
+  | 4 | 6 | 9 | 11 -> 30
+  | 1 | 3 | 5 | 7 | 8 | 10 | 12 -> 31
+  | _ -> failwith "days_of_month: days does not represent month"
 
-(* 与えられた整数が月を表しているか *)
-let is_month m = 1 <= m && m <= 12
+let ymd_of_string s = 
+  if String.length s <> 8
+  then failwith "ymd_of_string: length must be eight"
+  else 
+    let y = int_of_string @@ String.sub s 0 4 in
+    let m = int_of_string @@ String.sub s 4 2 in
+    let d = int_of_string @@ String.sub s 6 2 in
+    if 1 <= m && m <= 12 && 1 <= d && d <= days_of_month m
+    then (y, m, d)
+    else failwith "ymd_of_string: month or day is invalid" 
 
-(* 与えられた月の日数 *)
-(* 簡単のため2月は29日までとする*)
-let days_in_month = function
-  | February -> 29
-  | (April | June | September | November) -> 30
-  | (January | March | May | July | August | October | December) -> 31
+let time_of_string s =
+  let slist = split (regexp "\\.") s in
+  if List.length slist < 1 || 2 < List.length slist
+  then failwith "time_of_string"
+  else if List.length slist = 1
+  then
+    match slist with
+    | [x] -> float_of_string x
+    | _ -> failwith "time_of_string"
+  else
+    match slist with
+    | [x; y] -> 
+        let _ = int_of_string x in
+        let f = int_of_string y in
+        if f <> 5 && f <> 0 then failwith "time_of_string"
+        else float_of_string s
+    | _ -> failwith "time_of_string"
 
-(* 与えられた月と日が正しいか *)
-let is_day m d = 1 <= d && d <= days_in_month m
+let whle cond body =
+  let rec iter () =
+    if cond () then body () else ()
+  in iter ()
