@@ -1,6 +1,5 @@
 open MySupport
 open ManageLog
-(* log をいじる部分はモジュールとしてまとめる *)
 let fileptr = ref LogMap.empty
 
 let rec to_state1 () = (* 状態1 *)
@@ -8,17 +7,17 @@ let rec to_state1 () = (* 状態1 *)
   print_endline "1. 記録";
   print_endline "2. 閲覧（直近60日間）";
   print_endline "3. 終わる";
-  print_char '>'; flush stdout;
+  prompt ();
   let s = read_line () in
   match s with
   | "1" -> (print_endline "学習時間を記録します"; to_state2 ())
   | "2" -> (print_endline "記録を閲覧します。"; to_state6 ())
   | "3" -> print_endline "ラーニングログを終わります。";
   | _ -> (print_endline "1~3 の番号を入力してください。"; to_state1 ())
-
 and to_state2 () = (* 状態2 *)
   print_endline "記録する日付をyyyymmdd形式で入力してください（中止する場合は q）";
   print_endline "例：2048年6月1日は 20480601";
+  prompt ();
   let s = read_line () in
   if s = "q" then to_state1 ()
   else
@@ -35,7 +34,7 @@ and to_state3 year month day () = (* 状態3 *)
   else to_state5 year month day ()
 and to_state4 year month day () = (* 状態4 *)
   print_endline "指定された日付の記録が既に存在しますが、上書きしますか？y/n";
-  print_char '>'; flush stdout;
+  prompt ();
   let s = read_line () in
   if s = "y" || s = "Y" then to_state5 year month day ()
   else if s = "n" || s = "N" then to_state1 ()
@@ -55,7 +54,6 @@ and to_state5 year month day () = (* 状態5 *)
 and to_state6 () = (* 状態6 *)
   show_log !fileptr;
   to_state1 ()
-
 
 (* 起動時 *)
 let () =

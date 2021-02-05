@@ -1,14 +1,18 @@
 TARGET = llog
 STRCMA = str.cma
-OBJS = mySupport.cmo manageLog.ml main.cmo
+INCLUDE = -I ~/my_project/personal_dev/learning_log
+OBJS = mySupport.cmo manageLog.cmo main.cmo
 
 all : $(DEPEND) $(TARGET)
 
 llog : $(OBJS)
-			ocamlc -o $(TARGET) $(STRCMA) $(OBJS)
+			ocamlc $(INCLUDE) -o $(TARGET) $(STRCMA) $(OBJS)
+
+%.cmi : %.mli
+			ocamlc -c $(INCLUDE) $<
 
 %.cmo : %.ml
-			ocamlc -c $<
+			ocamlc -c $(INCLUDE) $<
 
 clean::
 			-rm -rf *.cmi *.cmo $(TARGET) *.cmx *~

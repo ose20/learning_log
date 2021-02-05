@@ -27,6 +27,10 @@ module Date =
 
 module LogMap = Map.Make (Date)
 
+type t = float LogMap.t
+
+let empty = LogMap.empty
+
 let logfile = "log.txt"
 
 (* 起動時の log.txt の読み込み & それらを格納した Map を返す *)
@@ -50,7 +54,8 @@ let loginit () =
   in input_log logmap 
 
 (* 指定された日付のデータが既に存在するか *)
-let mem y m d logmap = LogMap.mem (y, m, d) logmap
+let mem y m d (logmap: float LogMap.t)
+  = LogMap.mem (y, m, d) logmap
 
 (* 新しいデータを追加 & log.txt への書き込み *)
 (* 上書きもこれでできる *)

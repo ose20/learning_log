@@ -1,14 +1,12 @@
 (* MySupport: 補助関数群*)
 open Str
 
-type floint = Float of float | Int of int
 let i_of_s s = int_of_string s
 let f_of_s s = float_of_string s
 let i_of_f f = int_of_float f
 let data_of_log y m d time =
   (i_of_s y, i_of_s m, i_of_s d, f_of_s time)
-
-
+let prompt () = print_char '>'; flush stdout
 let days_of_month = function
   | 2 -> 29
   | 4 | 6 | 9 | 11 -> 30
