@@ -1,6 +1,6 @@
 open MySupport
 open ManageLog
-let fileptr = ref LogMap.empty
+let fileptr = ref ManageLog.empty
 
 let rec to_state1 () = (* 状態1 *)
   print_endline "何をしますか？（番号を1つ入力）";
