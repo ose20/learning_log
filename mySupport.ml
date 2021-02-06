@@ -13,16 +13,13 @@ let days_of_month = function
   | 1 | 3 | 5 | 7 | 8 | 10 | 12 -> 31
   | _ -> failwith "days_of_month: days does not represent month"
 
-let ymd_of_string s = 
-  if String.length s <> 8
-  then failwith "ymd_of_string: length must be eight"
-  else 
-    let y = int_of_string @@ String.sub s 0 4 in
-    let m = int_of_string @@ String.sub s 4 2 in
-    let d = int_of_string @@ String.sub s 6 2 in
-    if 1 <= m && m <= 12 && 1 <= d && d <= days_of_month m
-    then (y, m, d)
-    else failwith "ymd_of_string: month or day is invalid" 
+let ymd_of_string s =
+  assert (String.length s = 8);
+  let y = int_of_string @@ String.sub s 0 4 in
+  let m = int_of_string @@ String.sub s 4 2 in
+  let d = int_of_string @@ String.sub s 6 2 in
+  assert (1 <= m && m <= 12 && 1 <= d && d <= days_of_month m);
+  (y, m, d)
 
 let time_of_string s =
   let slist = split (regexp "\\.") s in
