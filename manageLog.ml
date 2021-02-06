@@ -28,13 +28,13 @@ module Date =
 module LogMap = Map.Make (Date)
 
 type t = float LogMap.t
+type filetype = string
+let empty : t = LogMap.empty
+let logfile : filetype = "log.txt"
 
-let empty = LogMap.empty
-
-let logfile = "log.txt"
 
 (* 起動時の log.txt の読み込み & それらを格納した Map を返す *)
-let loginit () =
+let loginit () : t =
   let logmap = LogMap.empty in
   let in_ch = open_in logfile in
   let rec input_log logmap =
@@ -54,19 +54,19 @@ let loginit () =
   in input_log logmap 
 
 (* 指定された日付のデータが既に存在するか *)
-let mem y m d (logmap: float LogMap.t)
+let mem y m d (logmap : t)
   = LogMap.mem (y, m, d) logmap
 
 (* 新しいデータを追加 & log.txt への書き込み *)
 (* 上書きもこれでできる *)
-let add y m d time logmap =
+let add y m d time (logmap : t) : t =
   let out_ch = open_out_gen [Open_wronly; Open_append; Open_text] 0o666 logfile in
   Printf.fprintf out_ch "%d,%02d,%02d,%.1f\n" y m d time;
   close_out out_ch;
   LogMap.add (y, m, d) time logmap
 
 (* logmap から直近60日のデータを取ってきて出力 *)
-let show_log logmap =
+let show_log (logmap : t) =
   let data_lst = LogMap.bindings logmap in
   let rec take_elt n result lst =
     match (n, lst) with
