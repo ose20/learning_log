@@ -36,13 +36,14 @@ and to_state4 year month day () = (* 状態4 *)
   print_endline "指定された日付の記録が既に存在しますが、上書きしますか？y/n";
   prompt ();
   let s = read_line () in
-  if s = "y" || s = "Y" then to_state5 year month day ()
-  else if s = "n" || s = "N" then to_state1 ()
-  else (print_endline "y か n を押してください。"; to_state4 year month day ())
+  match s with
+  | "y" | "Y" -> to_state5 year month day ()
+  | "n" | "N" -> to_state5 year month day ()
+  | _ -> (print_endline "y か n を押してください。"; to_state4 year month day ())
 and to_state5 year month day () = (* 状態5 *)
   print_endline "学習時間を 0.5 時間単位で入力してください";
   print_endline "例：1時間半 → 1.5、3時間 → 3.0 or 3. or 3";
-  print_char '>'; flush stdout;
+  prompt ();
   let s = read_line () in
   try 
     let time = time_of_string s in
