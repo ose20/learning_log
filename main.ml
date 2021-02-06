@@ -19,14 +19,14 @@ and to_state2 () = (* 状態2 *)
   print_endline "例：2048年6月1日は 20480601";
   prompt ();
   let s = read_line () in
-  if s = "q" then to_state1 ()
-  else
-    begin
+  match s with
+  | "q" -> to_state1 ()
+  | s ->
       try 
-        let (year, month, day) = ymd_of_string s in
-        to_state3 year month day ()
+        let (year, mon, day) = ymd_of_string s in
+        to_state3 year mon day ()
       with _ -> (print_endline "形式が違います。やり直してください。"; to_state2 ())
-    end
+
 and to_state3 year month day () = (* 状態3 *)
   print_endline "データを参照しています。";
   if mem year month day !fileptr (* (year, month, day) にするとエラーになる理由を考える*)
