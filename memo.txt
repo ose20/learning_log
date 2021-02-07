@@ -1,0 +1,16 @@
+to do
+- 時間も扱いたいので、モジュール名は date より log か
+- 西暦と月から曜日を算出して、閲覧時に曜日も表示できるようにしたい
+- log.txt の1行分のデータを表す型をつけるか
+- 年月日を扱うモジュールを作成したい
+  - インターフェース
+    - type year = int
+    - type mon = int
+    - type day = int
+    - type time = float
+    - type date = Year of int * Mon of int * day of int
+    - type youbi = Sun | Mon | Tue | Wed | Thi | Fri | Sat
+    - val youbi_of_date : date -> youbi
+    - val yyyymmdd_of_string : string -> date
+    - val days_of_month : year -> month -> day
+    - val time_of_string : string -> time
