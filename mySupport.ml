@@ -40,7 +40,7 @@ let time_of_string s =
     | _ -> failwith "time_of_string"
 
 let is_leap_year y =
-  y mod 400 = 0 &&
+  y mod 400 = 0 ||
   (y mod 400 <> 0 && y mod 100 <> 0 && y mod 4 = 0)
 
 let days_of_month year = function
@@ -62,11 +62,11 @@ let youbi_of_date y m d =
   in
   let total_days =
     let rec iter i acm =
-      if i = y then acm + d
-      else iter (i + 1) (acm + days_of_month y m)
+      if i = m then acm + d
+      else iter (i + 1) (acm + days_of_month y i)
     in iter 1 total_days_until_last_year
   in
   match total_days mod 7 with
-  | 0 -> "土" | 1 -> "日" | 2 -> "月" | 3 -> "火"
-  | 4 -> "水" | 5 -> "木" | 6 -> "金" | _ -> failwith "cannot happen"
+  | 0 -> "金" | 1 -> "土" | 2 -> "日" | 3 -> "月" | 4 -> "火"
+  | 5 -> "水" | 6 -> "木" | _ -> failwith "cannot happen"
 
