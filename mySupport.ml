@@ -56,7 +56,7 @@ let youbi_of_date y m d =
   *)
   let total_days_until_last_year =
     let rec iter i acm =
-      if i > y then acm
+      if i >= y then acm
       else iter (i + 1) (acm + if is_leap_year i then 366 else 365)
     in iter 2000 0
   in
