@@ -39,7 +39,3 @@ let time_of_string s =
         else float_of_string s
     | _ -> failwith "time_of_string"
 
-let whle cond body =
-  let rec iter () =
-    if cond () then body () else ()
-  in iter ()
