@@ -39,3 +39,34 @@ let time_of_string s =
         else float_of_string s
     | _ -> failwith "time_of_string"
 
+let is_leap_year y =
+  y mod 400 = 0 &&
+  (y mod 400 <> 0 && y mod 100 <> 0 && y mod 4 = 0)
+
+let days_of_month year = function
+  | 1 | 3 | 5 | 7 | 8 | 10 | 12 -> 31
+  | 4 | 6 | 9 | 11 -> 30
+  | 2 -> if is_leap_year year then 29 else 28
+  | _ -> failwith "days_of_month"
+
+let youbi_of_date y m d =
+  (* 2000年1月1日（土）から数えて何日目か
+  ** それを7で割ったあまりで考える
+  ** 2000年以前の入力がされた時は未定義
+  *)
+  let total_days_until_last_year =
+    let rec iter i acm =
+      if i > y then acm
+      else iter (i + 1) (acm + if is_leap_year i then 366 else 365)
+    in iter 2000 0
+  in
+  let total_days =
+    let rec iter i acm =
+      if i = y then acm + d
+      else iter (i + 1) (acm + days_of_month y m)
+    in iter 1 total_days_until_last_year
+  in
+  match total_days mod 7 with
+  | 0 -> "土" | 1 -> "日" | 2 -> "月" | 3 -> "火"
+  | 4 -> "水" | 5 -> "木" | 6 -> "金" | _ -> failwith "cannot happen"
+

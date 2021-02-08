@@ -73,13 +73,15 @@ let show_log (logmap : t) =
     | (0, _) -> result
     | (_, []) -> result
     | (_, ((y, m, d), time)::rest) -> 
-        take_elt (n - 1) ((m, d, time)::result) rest
+        take_elt (n - 1) ((y, m, d, time)::result) rest
   in
   let result_lst = take_elt 60 [] data_lst in
   let rec make_gauge n =
     if n = 0 then "" else "▮" ^ (make_gauge (n - 1)) in
-  let print_day (m, d, time) =
-    Printf.printf "%02d/%02d |%s %.1f\n" m d (make_gauge @@ i_of_f @@ 2.0 *. time) time
+  let print_day (y, m, d, time) =
+    Printf.printf "%02d/%02d（%s） |%s %.1f\n" m d
+    (youbi_of_date y m d)
+    (make_gauge @@ i_of_f @@ 2.0 *. time) time
   in
   Printf.printf "\n\n";
   List.iter (fun day -> print_day day) result_lst;
