@@ -81,7 +81,7 @@ let show_log (logmap : t) =
   let print_day (y, m, d, time) =
     Printf.printf "%02d/%02d（%s） |%s %.1f\n" m d
     (youbi_of_date y m d)
-    (make_gauge @@ i_of_f @@ 2.0 *. time) time
+    (make_gauge @@ i_of_f @@ 4.0 *. time) time
   in
   Printf.printf "\n\n";
   List.iter (fun day -> print_day day) result_lst;
