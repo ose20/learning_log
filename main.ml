@@ -38,7 +38,7 @@ and to_state4 year month day () = (* 状態4 *)
   let s = read_line () in
   match s with
   | "y" | "Y" -> to_state5 year month day ()
-  | "n" | "N" -> to_state5 year month day ()
+  | "n" | "N" -> to_state2 ()
   | _ -> (print_endline "y か n を押してください。"; to_state4 year month day ())
 and to_state5 year month day () = (* 状態5 *)
   print_endline "学習時間を 0.5 時間単位で入力してください";
