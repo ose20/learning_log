@@ -69,4 +69,3 @@ let youbi_of_date y m d =
   match total_days mod 7 with
   | 0 -> "金" | 1 -> "土" | 2 -> "日" | 3 -> "月" | 4 -> "火"
   | 5 -> "水" | 6 -> "木" | _ -> failwith "cannot happen"
-
