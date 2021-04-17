@@ -22,7 +22,7 @@ and to_state2 () = (* 状態2 *)
   match s with
   | "q" -> to_state1 ()
   | s ->
-      try 
+      try
         let (year, mon, day) = ymd_of_string s in
         to_state3 year mon day ()
       with _ -> (print_endline "形式が違います。やり直してください。"; to_state2 ())
@@ -45,7 +45,7 @@ and to_state5 year month day () = (* 状態5 *)
   print_endline "例：1時間半 → 1.5、3時間 → 3.0 or 3. or 3";
   prompt ();
   let s = read_line () in
-  try 
+  try
     let time = time_of_string s in
     print_endline "データを記録しています。";
     fileptr := add year month day time !fileptr;
